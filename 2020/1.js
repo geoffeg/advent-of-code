@@ -6,5 +6,4 @@ const results = data.filter((d1) =>
     )[0]
   )[0] !== undefined
 );
-console.log(results)
 console.log(results.reduce((x, y) => x * y));
