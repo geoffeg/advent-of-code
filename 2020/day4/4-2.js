@@ -1,12 +1,12 @@
 const lines = require('fs').readFileSync('4.dat', 'ascii').split('\n')
 const required = {
-  'byr': new RegExp(/(19[2-8][0-9]|199[0-9]|20[01][0-9]|2020)/),
-  'iyr': new RegExp(/(201[0-9]|2020)/),
-  'eyr': new RegExp(/(202[0-9]|2030)/),
-  'hgt': new RegExp(/(?:(1[5-8][0-9]|19[0-3])cm|(59|6[0-9]|7[0-6])in)/),
-  'hcl': new RegExp(/#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})/),
-  'ecl': new RegExp(/(?:amb|blu|brn|gry|grn|hzl|oth)/),
-  'pid': new RegExp(/[0-9]{9}/)
+  'byr': new RegExp(/^(19[2-8][0-9]|199[0-9]|200[0-2])$/),
+  'iyr': new RegExp(/^(201[0-9]|2020)$/),
+  'eyr': new RegExp(/^(202[0-9]|2030)$/),
+  'hgt': new RegExp(/^(?:(1[5-8][0-9]|19[0-3])cm|(59|6[0-9]|7[0-6])in)$/),
+  'hcl': new RegExp(/^#[a-f0-9]{6}$/),
+  'ecl': new RegExp(/^(?:amb|blu|brn|gry|grn|hzl|oth)$/),
+  'pid': new RegExp(/^[0-9]{9}$/)
 }
 const recordSepIndexes = lines.reduce((a, e, i) => {
   if (e === '')
