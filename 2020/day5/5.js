@@ -1,18 +1,10 @@
-const lines = require('fs').readFileSync('sample.dat', 'ascii').split('\n')
-const ROWS = 127
-const COLUMNS = 8
-const operations = {
-  'F' : (i) => { console.log('F', i); return i[0][1] /= 2, i },
-  'B' : (i) => { console.log('B', i); return i[0][0] = i[0][1] / 2, i },
-  'L' : (i) => { console.log('L', i); return i[1][1] /= 2, i },
-  'R' : (i) => { console.log('R', i); return i[1][0]  = i[1][1] = 2, i }
-}
+const lines = require('fs').readFileSync('5.dat', 'ascii').split('\n').filter(n => n)
+const trTable = {F:0,B:1,L:0,R:1}
+
 const result = lines.map((line) => {
-  console.log()
-  return line.split('').reduce((a, v, i) => {
-    const res = operations[v](a)
-    console.log('a', a, 'v', v, 'Res', res)
-    return res
-  }, [[0, 127], [0, 8]])
+  const binarySample = line.replace(/[FBLR]/g, c => trTable[c])
+  const decimalRow = parseInt(binarySample.substr(0, 7), 2)
+  const decimalColumn = parseInt(binarySample.substr(7), 2)
+  return decimalRow * 8 + decimalColumn;
 })
-console.log(result)
+console.log(result.sort((a,b) => b-a)[0])
