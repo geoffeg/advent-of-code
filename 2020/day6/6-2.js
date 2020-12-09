@@ -1,10 +1,10 @@
-const fileData = require('fs').readFileSync('6.dat', 'ascii').split('\n\n')
-const results = fileData.map((line) => {
-  const groupLength = line.split('\n').length
+const fileData = require('fs').readFileSync('6.dat', 'ascii').trim().split('\n\n')
+const results = fileData.map(line => {
   const allGroupAnswers = line.replace(/\n/g, '')
-  const uniqueAnswers = allGroupAnswers.split('').filter((val, i, arr) => arr.indexOf(val) === i)
-  const answerFreq = allGroupAnswers.split('').reduce((acc, curr) => { return typeof acc[curr] == 'undefined' ? acc[curr] = 1 : acc[curr] += 1}, {} )
-  console.log(allGroupAnswers)
-  console.log(answerFreq)
-  console.log()
+  const answerFreq = allGroupAnswers.split('').reduce((acc, curr) => { 
+    acc[curr] ? acc[curr] += 1 : acc[curr] = 1; return acc }, 
+  {})
+  const groupLength = line.split('\n').length
+  return Object.entries(answerFreq).filter(f => f[1] === groupLength).map(e => e[0]).length
 })
+console.log(results.reduce((a, b) => a + b))
