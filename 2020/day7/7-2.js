@@ -12,11 +12,14 @@ console.dir(bagDefs, { depth: 10 })
 function findBags(bagDefs, target) {
   console.log(target)
   const bags = bagDefs[target]
-  return bags.map((bag) => {
-    const t = findBags(bagDefs, bag.bag)
-    console.log(bag.count, t[0])
-    return bag.count * t[0]
-  })
+  if (target in bagDefs) {
+    return bagDefs[target].forEach((bag) => {
+      console.log(bag.count)
+      return bag.count
+    })
+  } else {
+    return 0;
+  }
 }
 console.dir(findBags(bagDefs, "shiny gold"), { depth: 10 })
 
