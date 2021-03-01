@@ -10,12 +10,12 @@
 
 (defn find-bag-container [bags targets]
   (distinct (flatten (map (fn [target] (filter
-                               (fn [bag]
-                                 (->>
-                                   (bags bag)
-                                   (map last)
-                                   (some #(= target %))))
-                               (keys bags))) targets))))
+                                         (fn [bag]
+                                           (->>
+                                             (bags bag)
+                                             (map last)
+                                             (some #(= target %))))
+                                         (keys bags))) targets))))
 
 (defn find-bags [bags target-bag]
   (loop [bags bags
@@ -26,8 +26,17 @@
         found-bags
         (recur bags found (concat found-bags found))))))
 
-(let [bags (into {} (map parse-bags (parse-file "2020/day7/sample.dat")))]
-  (find-bags bags "shiny gold"))
-
 (defn part1 [filename]
   (count (distinct (find-bags (parse-file filename) ["shiny gold"]))))
+
+(defn count-bags [bags target]
+  (->> target
+       bags
+       (reduce
+         (fn [acc [count color]]
+           (+ acc (Integer. count)
+              (* (Integer. count) (count-bags bags color))))
+         0)))
+
+(defn part2 [filename]
+  (count-bags (parse-file filename) "shiny gold"))
