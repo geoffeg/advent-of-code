@@ -11,15 +11,15 @@
          (slurp file))))
 
 (defn run-instructions [instructions]
-  (loop [acc 0, line 0, seen []]
+  (loop [acc 0, line 0, seen #{}]
     (let [[instruction offset] (instructions line)]
       (prn instruction offset line)
-      (if (some #(= line %) seen)
+      (if (contains? seen line)
         acc
-        (cond
-          (= instruction "acc") (recur (+ acc offset) (inc line) (conj seen line))
-          (= instruction "jmp") (recur acc (+ line offset) (conj seen line))
-          (= instruction "nop") (recur acc (inc line) (conj seen line)))))))
+        (case instruction
+          "acc" (recur (+ acc offset) (inc line) (conj seen line))
+          "jmp" (recur acc (+ line offset) (conj seen line))
+          "nop" (recur acc (inc line) (conj seen line)))))))
 
 (defn part1 [filename]
   (->> filename
