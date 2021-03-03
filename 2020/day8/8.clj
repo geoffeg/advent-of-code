@@ -11,7 +11,7 @@
           (slurp file))))
 
 (defn run-instructions [instructions]
-  (loop [acc 0, line 0, seen #{}]
+  (loop [acc 0 line 0 seen #{}]
     (cond (contains? seen line) [acc line]
           (= line (count instructions)) [acc line]
           :else (let [[instruction offset] (instructions line)]
