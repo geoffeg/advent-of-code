@@ -17,5 +17,4 @@
                    (empty?
                      (filter-combination
                        (subvec data (- position size ) position) entry))))
-         ffirst
-         )))
+         ffirst)))
