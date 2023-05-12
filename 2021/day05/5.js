@@ -10,12 +10,11 @@ function range(start, stop) {
 }
 
 function initializeGrid(lines) {
-    const columnsMax = lines.reduce((winner, [point1, point2]) => {
-        return Math.max(winner, point1[0], point2[0])
-    }, 0)
-    const rowsMax = lines.reduce((winner, [point1, point2]) => {
-        return Math.max(winner, point1[1], point2[1])
-    }, 0)
+    const maxByIndex = (arr, index) => {
+        return arr.reduce((winner, [x, y]) => Math.max(winner, x[index], y[index]), 0)
+    }
+    const columnsMax = maxByIndex(lines, 0)
+    const rowsMax = maxByIndex(lines, 1)
     return Array(rowsMax + 1).fill().map(() => Array(columnsMax + 1).fill(0))
 }
 
@@ -25,11 +24,9 @@ function drawLine(board, point1, point2) {
     })
     return board
 }
-  
-const board = initializeGrid(data)
 
 const completedBoard = data.filter(([p1, p2]) => p1[0] == p2[0] || p1[1] == p2[1]).reduce((board, line) => {
     return drawLine(board, line[0], line[1])
-}, board)
+}, initializeGrid(data))
 
 console.log(completedBoard.flat().filter(v => v >= 2).length)
