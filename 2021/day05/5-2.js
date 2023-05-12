@@ -25,7 +25,7 @@ function drawLine(board, point1, point2) {
     return board
 }
 
-const completedBoard = data.filter(([p1, p2]) => p1[0] == p2[0] || p1[1] == p2[1]).reduce((board, line) => {
+const completedBoard = data.reduce((board, line) => {
     return drawLine(board, line[0], line[1])
 }, initializeBoard(data))
 
