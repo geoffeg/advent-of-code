@@ -1,5 +1,8 @@
 const R = require("ramda")
-const data = require('fs').readFileSync(process.argv[2], 'utf-8').split('\n').map(line => line.split(' -> ').map(coords => coords.split(',').map(str => parseInt(str))))
+const data = require('fs').readFileSync(process.argv[2], 'utf-8').split('\n').map(line => {
+    const matches = line.match(/(([0-9]+),([0-9]+)) -> ([0-9]+),([0-9]+)/).map(match => parseInt(match))
+    return [[matches[2], matches[3]], [matches[4], matches[5]]]
+})
 // * the first value is the column (vertical)
 // * the second value is the row (horizontal)
 function range(start, stop) {
