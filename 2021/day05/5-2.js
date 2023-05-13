@@ -18,15 +18,27 @@ function initializeBoard(lines) {
     return Array(rowsMax + 1).fill().map(() => Array(columnsMax + 1).fill(0))
 }
 
-function drawLine(board, point1, point2) {
+function drawOrthogonalLine(board, point1, point2) {
     R.xprod(range(point1[0], point2[0]), range(point1[1], point2[1])).forEach(([x, y]) => {
         board[y][x]++
     })
     return board
 }
 
-const completedBoard = data.reduce((board, line) => {
-    return drawLine(board, line[0], line[1])
+function drawDiagonalLine(board, point1, point2) {
+    range(point1[0], point2[0]).forEach((y, i) => {
+        const x = point1[1] > point2[1] ? point1[1] - i : point1[1] + i
+        board[x][y]++
+    })
+    return board
+}
+
+const orthogonalBoard = data.filter(([p1, p2]) => p1[0] == p2[0] || p1[1] == p2[1]).reduce((board, line) => {
+    return drawOrthogonalLine(board, line[0], line[1])
 }, initializeBoard(data))
 
-console.log(completedBoard.flat().filter(v => v >= 2).length)
+const orthogonalAndDiagonalBoard = data.filter(([p1, p2]) => p1[0] != p2[0] && p1[1] != p2[1]).reduce((board, line) => {
+    return drawDiagonalLine(board, line[0], line[1])
+}, orthogonalBoard)
+
+console.log(orthogonalAndDiagonalBoard.flat().filter(v => v >= 2).length)
